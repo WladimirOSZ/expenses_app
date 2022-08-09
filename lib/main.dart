@@ -1,3 +1,4 @@
+import './widgets/chart.dart';
 import 'package:expenses_app/widgets/new_transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -43,20 +44,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // verifica se o late é realmente necessário depois
 
-  final List<Transaction> _userTransaction = [
-    Transaction(
-      id: 't1',
-      title: 'Vans shoes',
-      amount: 430.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Dc Shoes',
-      amount: 250,
-      date: DateTime.now(),
-    )
+  final List<Transaction> _userTransactions = [
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Vans shoes',
+    //   amount: 430.00,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Dc Shoes',
+    //   amount: 250,
+    //   date: DateTime.now(),
+    // )
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     final newTx = Transaction(
@@ -67,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     setState(() {
-      _userTransaction.add(newTx);
+      _userTransactions.add(newTx);
     });
   }
 
@@ -96,15 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            width: double.infinity,
-            child: Card(
-              child: Text('CHART'),
-              elevation: 5,
-              color: Colors.blue,
-            ),
-          ),
-          TransactionList(_userTransaction)
+          Chart(_recentTransactions),
+          TransactionList(_userTransactions)
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
