@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height - 200,
+      height: MediaQuery.of(context).size.height - 300,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -21,7 +21,7 @@ class TransactionList extends StatelessWidget {
                   'No transactions added yet!',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Image.asset(
